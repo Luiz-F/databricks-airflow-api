@@ -1,18 +1,17 @@
 # Databricks notebook source
+# CRIANDO WIDGET PARA OBER A DATA DE EXECUÇÃO
 dbutils.widgets.text('data_execucao', '')
 data_execucao = dbutils.widgets.get('data_execucao')
 
 # COMMAND ----------
 
+# IMPORTANDO AS BIBLIOTECAS
 import requests
 from pyspark.sql.functions import lit
 
 # COMMAND ----------
 
-
-date='2022-07-09'
-base= 'BRL'
-
+# FUNÇÃO QUE EXTRAI OS DADOS RAW DA API.
 def extraindo_dados(date,base="BRL"):
   url = f"https://api.apilayer.com/exchangerates_data/{date}&base={base}"
 
@@ -29,12 +28,14 @@ def extraindo_dados(date,base="BRL"):
 
 # COMMAND ----------
 
+# FUNÇÃO QUE CONVERTE O JSON EM UM LISTA DE TUPLAS.
 def dados_para_df(dado_json):
     dados_tupla = [(moeda,float(taxa)) for moeda, taxa in dado_json['rates'].items()]
     return dados_tupla
 
 # COMMAND ----------
 
+# FUNÇÃO QUE CRIA O DIRETÓRIO, O DATAFRAME, ADICIONA A COLUNA DATA E SALVA NO DATABRICKS.
 def salvar_arquivo_parquet(conversoes_extraidas):
     ano, mes, dia = conversoes_extraidas['date'].split('-')
     path = f'dbfs:/databricks-results/bronze/{ano}/{mes}/{dia}/'
@@ -48,13 +49,6 @@ def salvar_arquivo_parquet(conversoes_extraidas):
 
 # COMMAND ----------
 
+# EXECUTANDO AS FUNÇÕES PEGANDO A VARIÁVEL "DATA EXECUÇÃO" QUE VEM DA VARIÁVEL DE ENTRADA QUE SERÁ ALIMENTADA PELO AIRFLOW
 cotacoes = extraindo_dados(data_execucao)
 salvar_arquivo_parquet(cotacoes)
-
-# COMMAND ----------
-
-display(dbutils.fs.ls('dbfs:/databricks-results/bronze/2024/10/'))
-
-# COMMAND ----------
-
-
