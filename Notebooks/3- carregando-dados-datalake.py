@@ -9,10 +9,10 @@ configs = {"fs.azure.account.auth.type": "OAuth",
 
 # COMMAND ----------
 
-dbutils.fs.mount(
-  source = "abfss://taxas@datalakeestudo.dfs.core.windows.net/",
-  mount_point = "/mnt/dados/",
-  extra_configs = configs)
+#dbutils.fs.mount(
+#  source = "abfss://taxas@datalakeestudo.dfs.core.windows.net/",
+#  mount_point = "/mnt/dados/",
+#  extra_configs = configs)
 
 # COMMAND ----------
 

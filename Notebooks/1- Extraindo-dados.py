@@ -52,3 +52,7 @@ def salvar_arquivo_parquet(conversoes_extraidas):
 # EXECUTANDO AS FUNÇÕES PEGANDO A VARIÁVEL "DATA EXECUÇÃO" QUE VEM DA VARIÁVEL DE ENTRADA QUE SERÁ ALIMENTADA PELO AIRFLOW
 cotacoes = extraindo_dados(data_execucao)
 salvar_arquivo_parquet(cotacoes)
+
+# COMMAND ----------
+
+
